@@ -1,0 +1,9 @@
+{
+  "counters": [
+    {
+      "id": 1,
+      "name": "Asosiy Counter",
+      "initialValue": 0
+    }
+  ]
+}
