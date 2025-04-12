@@ -1,48 +1,54 @@
 import { useReducer } from "react";
 import Child from "./Child";
 
-const counterReducer = (state, action) => {
+const nameReducer = (state, action) => {
   switch (action.type) {
-    case "OSHIRISH":
-      return state + 1;
-    case "KAMAYTIRISH":
-      return state - 1;
-    case "NOLGA":
-      return 0;
+    case "SET_NAME":
+      return { ...state, name: action.payload };
     default:
       return state;
   }
 };
 
 const App = () => {
-  const [count, dispatch] = useReducer(counterReducer, 0);
+  const [state, dispatch] = useReducer(nameReducer, { name: "" });
+
+  const handleNameChange = (e) => {
+    dispatch({ type: "SET_NAME", payload: e.target.value });
+  };
+
+  const handleSave = () => {
+    console.log("Ism saqlandi:", state.name);
+  };
 
   return (
-    <div>
-      <h2>Counter: {count}</h2>
+    <div className="p-4">
+      <h2 className="text-xl font-bold mb-4">Ism kiritish</h2>
 
-      <button
-        onClick={() => dispatch({ type: "OSHIRISH" })}
-        style={{ margin: "5px", padding: "5px 10px" }}
-      >
-        Oshirish (+)
-      </button>
+      <div className="mb-4">
+        <input
+          type="text"
+          value={state.name}
+          onChange={handleNameChange}
+          placeholder="Ismingizni kiriting"
+          className="border p-2 mr-2 rounded"
+        />
 
-      <button
-        onClick={() => dispatch({ type: "KAMAYTIRISH" })}
-        style={{ margin: "5px", padding: "5px 10px" }}
-      >
-        Kamaytirish (-)
-      </button>
+        <button
+          onClick={handleSave}
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          Saqlash
+        </button>
+      </div>
 
-      <button
-        onClick={() => dispatch({ type: "NOLGA" })}
-        style={{ margin: "5px", padding: "5px 10px" }}
-      >
-        Nolga qaytarish
-      </button>
+      <Child name={state.name} />
 
-      <Child count={count} />
+      <div className="mt-4">
+        <a href="/profile" className="text-blue-500 underline">
+          Profil sahifasiga o'tish
+        </a>
+      </div>
     </div>
   );
 };
